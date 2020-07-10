@@ -16,6 +16,36 @@ register_activation_hook(__FILE__, 'Kfp_Aspirante_init');
  *
  * @return void
  */
+
+function getRealIP()
+{
+
+    if (isset($_SERVER["HTTP_CLIENT_IP"]))
+    {
+        return $_SERVER["HTTP_CLIENT_IP"];
+    }
+    elseif (isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+    {
+        return $_SERVER["HTTP_X_FORWARDED_FOR"];
+    }
+    elseif (isset($_SERVER["HTTP_X_FORWARDED"]))
+    {
+        return $_SERVER["HTTP_X_FORWARDED"];
+    }
+    elseif (isset($_SERVER["HTTP_FORWARDED_FOR"]))
+    {
+        return $_SERVER["HTTP_FORWARDED_FOR"];
+    }
+    elseif (isset($_SERVER["HTTP_FORWARDED"]))
+    {
+        return $_SERVER["HTTP_FORWARDED"];
+    }
+    else
+    {
+        return $_SERVER["REMOTE_ADDR"];
+    }
+
+}
 function Kfp_Aspirante_init()
 {
     global $wpdb; // Este objeto global permite acceder a la base de datos de WP
@@ -33,6 +63,7 @@ function Kfp_Aspirante_init()
         nivel_css smallint(4) NOT NULL,
         nivel_js smallint(4) NOT NULL,
         aceptacion smallint(4) NOT NULL,
+        ip_origen varchar(40) NOT NULL,
         created_at datetime NOT NULL,
         UNIQUE (id)
         ) $charset_collate;";
@@ -79,6 +110,7 @@ function Kfp_Aspirante_form()
         $nivel_js = (int) $_POST['nivel_js'];
         $aceptacion = (int) $_POST['aceptacion'];
         $created_at = date('Y-m-d H:i:s');
+        $ip_origen=getRealIP();
         $wpdb->insert(
             $tabla_aspirantes,
             array(
@@ -88,6 +120,7 @@ function Kfp_Aspirante_form()
                 'nivel_css' => $nivel_css,
                 'nivel_js' => $nivel_js,
                 'aceptacion' => $aceptacion,
+                'ip_origen'=>$ip_origen,
                 'created_at' => $created_at,
             )
         );
@@ -142,15 +175,15 @@ al dedillo
         <div class="form-input">
             <label for="aceptacion">La información facilitada se tratará
             con respeto y admiración.</label>
-            <input type="checkbox" id="aceptacion" name="aceptacion"value="1" required disabled>
-            <a id="privacidad" href="">Entiendo y acepto las condiciones</a>
+            <input type="checkbox" id="aceptacion" name="aceptacion"value="1" required>
+            <a id="privacidad" target="_blank" href="www.gmail.com">Entiendo y acepto las condiciones</a>
         </div>
         <div class="form-input">
-            <input type="submit" value="Enviar">
+            <input type="submit" id="btnformulario" value="Enviar" disabled="true" title="Es necesario aceptar teminos y condiciones"> 
         </div>
     </form>
 
-
+<!--
 <script>
         window.onload = () => {
             document.getElementById("privacidad").onclick=(e)=>{
@@ -161,7 +194,7 @@ al dedillo
         }
     </script>
 
-
+    -->
 
     <?php
 
