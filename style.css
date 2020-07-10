@@ -1,5 +1,7 @@
 form.cuestionario {
     width: 600px;
+   background-color: aqua;
+   font-family: fantasy;
 }
 form.cuestionario label {
     font-weight: bold;
