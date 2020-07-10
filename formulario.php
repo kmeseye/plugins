@@ -1,29 +1,27 @@
 <?php
 /**
 * Plugin Name: formulario
-
-
-Plugin Name: formulario
-Plugin URI: https://akismet.com/
-Description: Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started: activate the Akismet plugin and then go to your Akismet Settings page to set up your API key.
-Version: 4.1.5
-Author: Automattic
-Author URI: https://automattic.com/wordpress-plugins/
-License: GPLv2 or later
-Text Domain: akismet
+* Plugin URI: https://akismet.com/
+* Description: new formulario pluging.
+*Author: sergio
+*Author URI: https://automattic.com/wordpress-plugins/
+*License: GPLv2 or later
+*Text Domain: formulario
 */
 
 //Define el shortcode y lo asocia a una función
 add_shortcode('kfp_aspirante_form', 'Kfp_Aspirante_form');
  
 function Kfp_Aspirante_form() 
+// Carga esta hoja de estilo para poner más bonito el formulario
+wp_enqueue_style('css_aspirante', plugins_url('style.css', __FILE__));
 {
     // Esta función de PHP activa el almacenamiento en búfer de salida (output buffer)
     // Cuando termine el formulario lo imprime con la función ob_get_clean
     ob_start();
     ?>
-    <form action="<?php get_the_permalink(); ?>" method="post" id="form_aspirante
-class="cuestionario"">
+    <form action="<?php get_the_permalink(); ?>" method="post" id="form_aspirante"
+class="cuestionario">
         <div class="form-input">
             <label for="nombre">Nombre</label>
             <input type="text" name="nombre" id="nombre" required>
